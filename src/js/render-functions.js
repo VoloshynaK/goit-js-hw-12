@@ -39,5 +39,4 @@ export function makeCardMarkup(images) {
     });
     lightbox.on('show.simplelightbox');
     lightbox.refresh();
-    
 }

@@ -35,24 +35,34 @@ body {
   color: #000;
   outline: 1.5px solid #4e75ff;
 }
+.load-btn,
 .btn {
   color: #fafafa;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
   background-color: #4e75ff;
   padding: 8px 16px;
   border-color: #4e75ff;
   border-radius: 8px;
   cursor: pointer;
 }
+.load-btn:hover,
 .btn:hover {
   background-color: #6c8cff;
 }
-
+.load-btn {
+  margin: 16px auto 32px auto;
+  display: flex;
+  justify-content: center;
+}
 /* gallery */
 .gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
+  margin: 0 auto;
 }
 .img {
   display: block;
