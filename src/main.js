@@ -5,7 +5,7 @@ import { makeCardMarkup } from "./js/render-functions";
 
 const formEl = document.querySelector(".form");
 const inputEl = document.querySelector('.input');
-const loader = document.querySelector('.loader');
+const loaderCont = document.querySelector('.loader-container');
 const galleryList = document.querySelector('.gallery');
 const loadBtn = document.querySelector(".load-btn");
 
@@ -24,13 +24,12 @@ async function onBtnSearch(e) {
 
     try {
         const data = await imgServ.fetchImg();
-        loader.style.display = 'flex';
-        loadBtn.style.display = 'flex';
+        loaderCont.style.display = 'flex';
         formEl.reset();
         galleryList.innerHTML = '';
         const { totalHits, hits } = data;
         if (totalHits === 0) {
-            loader.style.display = 'none';
+            loaderCont.style.display = 'none';
             loadBtn.style.display = 'none';
             return iziToast.warning({
                 title: '',
@@ -38,11 +37,13 @@ async function onBtnSearch(e) {
                 position: "topCenter",
             });  
         };
-        loader.style.display = 'none';
-        makeCardMarkup(hits);
+        setTimeout(() => {
+            loaderCont.style.display = 'none';
+            makeCardMarkup(hits);
+            loadBtn.style.display = 'flex';
+        }, 2000);
 
     } catch (err) {
-       console.log(err)
         return iziToast.error({
             title: '',
             message: 'Something went wrong. Please try again!',
@@ -53,13 +54,15 @@ async function onBtnSearch(e) {
 
 async function onLoadMore() {
     try {
-        loader.style.display = 'flex';
+        loaderCont.style.display = 'flex';
 
         const data = await imgServ.fetchImg();
-        loader.style.display = 'none';
-
         const { totalHits, hits } = data;
-        makeCardMarkup(hits);
+
+        setTimeout(() => {
+            loaderCont.style.display = 'none';
+            makeCardMarkup(hits);
+        }, 2000);
 
         const numOfPages = totalHits / 15;
         if (imgServ.page >= numOfPages) {
@@ -82,7 +85,6 @@ async function onLoadMore() {
 
 
     } catch (err) {
-        console.log(err)
         return iziToast.error({
             title: '',
             message: 'Something went wrong. Please try again!',
