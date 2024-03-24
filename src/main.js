@@ -19,12 +19,12 @@ loadBtn.addEventListener('click', onLoadMore);
 
 async function onBtnSearch(e) {
     e.preventDefault();
+    loaderCont.style.display = 'flex';
     imgServ.searchQuery = inputEl.value;
     imgServ.page = 1;
 
     try {
         const data = await imgServ.fetchImg();
-        loaderCont.style.display = 'flex';
         formEl.reset();
         galleryList.innerHTML = '';
         const { totalHits, hits } = data;
@@ -37,13 +37,12 @@ async function onBtnSearch(e) {
                 position: "topCenter",
             });  
         };
-        setTimeout(() => {
-            loaderCont.style.display = 'none';
-            makeCardMarkup(hits);
-            loadBtn.style.display = 'flex';
-        }, 2000);
+        loaderCont.style.display = 'none';
+        makeCardMarkup(hits);
+        loadBtn.style.display = 'flex';
 
     } catch (err) {
+        loaderCont.style.display = 'none';
         return iziToast.error({
             title: '',
             message: 'Something went wrong. Please try again!',
@@ -59,10 +58,10 @@ async function onLoadMore() {
         const data = await imgServ.fetchImg();
         const { totalHits, hits } = data;
 
-        setTimeout(() => {
-            loaderCont.style.display = 'none';
-            makeCardMarkup(hits);
-        }, 2000);
+        
+        loaderCont.style.display = 'none';
+        makeCardMarkup(hits);
+
 
         const numOfPages = totalHits / 15;
         if (imgServ.page >= numOfPages) {
